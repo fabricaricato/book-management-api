@@ -1,15 +1,14 @@
 {
   "name": "trabajo-final-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "trabajo práctico final de desarrollo web backend de la UTN",
+  "main": "index.ts",
   "scripts": {
-    "dev": "echo \"Error: no test specified\" && exit 1"
+    "dev": "ts-node-dev --respawn ./src/index.ts"
   },
   "keywords": [],
   "author": "Fabrizio Caricato",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",

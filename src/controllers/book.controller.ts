@@ -10,7 +10,8 @@ const getBooks = async (req: Request, res: Response) => {
     const books = await Book.find()
     return res.status(200).json({success: true, data: books})
   } catch (error) {
-    return res.status(500).json({success: false, error: error.message})
+    const err = error as Error
+    return res.status(500).json({success: false, error: err.message})
   }
 }
 
@@ -26,7 +27,8 @@ const createBook = async (req: Request, res: Response) => {
       return res.status(201).json({success: true, data: newBook})
     }
   } catch (error) {
-    return res.status(500).json({success: false, error: error.message})
+    const err = error as Error
+    return res.status(500).json({success: false, error: err.message})
   }
 }
 
@@ -39,11 +41,12 @@ const updateBook = async (req: Request, res: Response) => {
     if (!validation.success) {
       return res.status(400).json({ success: false, error: validation.error.flatten().fieldErrors })
     } else {
-      const updatedBook = await Book.findByIdAndUpdate(id, updates, { new: true })
+      const updatedBook = await Book.findByIdAndUpdate(id, validation.data, { new: true })
       return res.status(201).json({success: true, data: updatedBook})
     }
   } catch (error) {
-    return res.status(500).json({success: false, error: error.message})
+    const err = error as Error
+    return res.status(500).json({success: false, error: err.message})
   }
 }
 
@@ -58,10 +61,16 @@ const deleteBook = async (req: Request, res: Response) => {
       })
     } else {
       const deletedBook = await Book.findByIdAndDelete(id)
-      return res.status(201).json({success: true, data: deletedBook})
+
+      if (!deletedBook) {
+        return res.status(404).json({ success: false, error: "Book not found in database" });
+      } else {
+        return res.status(201).json({success: true, data: deletedBook})
+      }
     }
   } catch (error) {
-    return res.status(500).json({success: false, error: error.message})
+    const err = error as Error
+    return res.status(500).json({success: false, error: err.message})
   }
 }
 

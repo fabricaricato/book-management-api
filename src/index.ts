@@ -1,11 +1,18 @@
 import express from "express"
+import cors from "cors"
 import { config } from "dotenv"
 import { connectDb } from "./config/database"
+import { bookRouter } from "./routes/bookRouter"
+
 config()
 
 const PORT = process.env.PORT
 
 const server = express()
+server.use(cors())
+server.use(express.json())
+
+server.use('/api/books', bookRouter)
 
 server.listen(PORT, () => {
   try {

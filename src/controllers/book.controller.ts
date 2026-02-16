@@ -1,4 +1,4 @@
-import { Book } from "../models/Book.model"
+import { Book } from "../models/bookModel"
 import { Request, Response } from 'express';
 import { bookValidate, partialBookValidate } from "../validators/bookValidate";
 import mongoose from "mongoose";

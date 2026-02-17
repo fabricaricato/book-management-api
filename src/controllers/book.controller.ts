@@ -1,7 +1,7 @@
 import { Book } from "../models/bookModel"
-import { Request, Response } from 'express';
-import { bookValidate, partialBookValidate } from "../validators/bookValidate";
-import mongoose from "mongoose";
+import { Request, Response } from 'express'
+import { bookValidate, partialBookValidate } from "../validators/bookValidate"
+import mongoose from "mongoose"
 
 // const URI_DB = process.env.URI_DB 
 

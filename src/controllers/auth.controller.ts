@@ -1,7 +1,12 @@
-import { User } from '../models/userModel';
-import { Request, Response } from 'express';
-import { userValidate, partialUserValidate } from '../validators/userValidate';
+import { User } from '../models/userModel'
+import { Request, Response } from 'express'
+import { userValidate, partialUserValidate } from '../validators/userValidate'
+import jwt from "jsonwebtoken"
 import bcryptjs from "bcryptjs"
+import { config } from 'dotenv'
+config()
+
+const JWT_SECRET = process.env.JWT_SECRET as string
 
 const register = async (req: Request, res: Response) => {
   try {
@@ -31,7 +36,7 @@ const register = async (req: Request, res: Response) => {
 const login = async (req: Request, res: Response) => {
   try {
     const body = req.body
-    const { email, username, password } = body
+    const { email, password } = body
     
     const foundUser = await User.findOne({ email })
     if (!foundUser) {
@@ -39,11 +44,14 @@ const login = async (req: Request, res: Response) => {
     } else {
       const validatePassword = await bcryptjs.compare(password, foundUser.password)
 
-      // if (!validatePassword) {
-      //   res.status(400).json({success: false, error: "Invalid login details, please try again"})
-      // } else {
-
-      // }
+      if (!validatePassword) {
+        res.status(400).json({success: false, error: "Invalid login details, please try again"})
+      } else {
+        const payload = { _id: foundUser._id, username: foundUser.username, email: foundUser.email, role: foundUser.role }
+        console.log(payload)
+        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '10m' })
+        return res.status(200).json({success: true, token})
+      }
     }
   } catch (error) {
     const err = error as Error

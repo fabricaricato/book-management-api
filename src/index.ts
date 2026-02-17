@@ -3,6 +3,7 @@ import cors from "cors"
 import { config } from "dotenv"
 import { connectDb } from "./config/database"
 import { bookRouter } from "./routes/bookRouter"
+import { authRouter } from "./routes/authRouter"
 
 config()
 
@@ -13,6 +14,7 @@ server.use(cors())
 server.use(express.json())
 
 server.use('/api/books', bookRouter)
+server.use('/api/auth', authRouter)
 
 server.listen(PORT, () => {
   try {

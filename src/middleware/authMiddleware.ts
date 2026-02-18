@@ -19,7 +19,6 @@ const validateToken = async (req: IRequestWithUser, res: Response, next: NextFun
         return res.status(401).json({ success: false, error: "The token must be in jwt format" })
       } else {
         const token = header.split(' ')[1]
-        console.log(token)
 
         if (!token) {
           return res.status(401).json({ success: false, error: "Invalid token" })

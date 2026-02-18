@@ -7,7 +7,8 @@ interface IBook {
   date: Date,
   genre: string[],
   pages: number,
-  editorial: string
+  editorial: string,
+  user: Types.ObjectId
 }
 
 export {IBook}

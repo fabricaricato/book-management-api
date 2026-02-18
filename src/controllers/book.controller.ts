@@ -1,6 +1,7 @@
 import { Book } from "../models/bookModel"
 import { Request, Response } from 'express'
 import { bookValidate, partialBookValidate } from "../validators/bookValidate"
+import { IRequestWithUser } from "../interfaces/IRequestWithUser"
 import mongoose from "mongoose"
 
 const getBooks = async (req: Request, res: Response) => {
@@ -13,7 +14,7 @@ const getBooks = async (req: Request, res: Response) => {
   }
 }
 
-const createBook = async (req: Request, res: Response) => {
+const createBook = async (req: IRequestWithUser, res: Response) => {
   try {
     const body = req.body
     const validation = bookValidate.safeParse(body)
@@ -21,7 +22,12 @@ const createBook = async (req: Request, res: Response) => {
     if (!validation.success) {
       return res.status(400).json({ success: false, error: validation.error.flatten().fieldErrors })
     } else {
-      const newBook = await Book.create(validation.data)
+      
+      const newBook = await Book.create({
+        ...validation.data,
+        user: req.user?._id
+      })
+      
       return res.status(201).json({success: true, data: newBook})
     }
   } catch (error) {

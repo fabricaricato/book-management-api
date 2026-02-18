@@ -28,6 +28,11 @@ const BookSchema = new Schema<IBook>({
   editorial: {
     type: String,
     trim: true
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   }
 }, {
   versionKey: false

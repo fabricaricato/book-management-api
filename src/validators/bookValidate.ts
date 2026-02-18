@@ -1,4 +1,4 @@
-import z from "zod";
+import z from "zod"
 
 const bookValidate = z.object({
   title: z.string().min(2),

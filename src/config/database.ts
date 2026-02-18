@@ -5,7 +5,7 @@ config()
 const URI_DB = process.env.URI_DB as string
 
 if (!URI_DB) {
-  throw new Error("❌ Error: The URI_DB variable is missing in the .env");
+  throw new Error("❌ Error: The URI_DB variable is missing in the .env")
 }
 
 const connectDb = async () => {

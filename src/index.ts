@@ -4,17 +4,18 @@ import { config } from "dotenv"
 import { connectDb } from "./config/database"
 import { bookRouter } from "./routes/bookRouter"
 import { authRouter } from "./routes/authRouter"
-
+import { validateToken } from "./middleware/authMiddleware"
 config()
 
 const PORT = process.env.PORT
 
 const server = express()
+
 server.use(cors())
 server.use(express.json())
 
 server.use('/api/books', bookRouter)
-server.use('/api/auth', authRouter)
+server.use('/api/auth', validateToken, authRouter)
 
 server.listen(PORT, () => {
   try {

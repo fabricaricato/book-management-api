@@ -1,7 +1,7 @@
 {
-  "name": "trabajo-final-backend",
+  "name": "book-management-api",
   "version": "1.0.0",
-  "description": "trabajo práctico final de desarrollo web backend de la UTN",
+  "description": "Final backend web development project at UTN",
   "main": "index.ts",
   "scripts": {
     "dev": "ts-node-dev --respawn ./src/index.ts"

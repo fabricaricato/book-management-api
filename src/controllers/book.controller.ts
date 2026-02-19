@@ -6,7 +6,23 @@ import mongoose from "mongoose"
 
 const getBooks = async (req: Request, res: Response) => {
   try {
-    const books = await Book.find()
+    const { author, genre, minPages } = req.query
+    const filter: any = {}
+
+    if (author) {
+      filter.author = { $regex: author, $options: 'i' }
+    }
+
+    if (genre) {
+      filter.genre = genre
+    }
+
+    if (minPages) {
+      filter.pages = { $gte: Number(minPages) };
+    }
+
+    const books = await Book.find(filter).populate('user');
+
     return res.status(200).json({success: true, data: books})
   } catch (error) {
     const err = error as Error
@@ -22,7 +38,7 @@ const createBook = async (req: IRequestWithUser, res: Response) => {
     if (!validation.success) {
       return res.status(400).json({ success: false, error: validation.error.flatten().fieldErrors })
     } else {
-      
+
       const newBook = await Book.create({
         ...validation.data,
         user: req.user?._id

@@ -5,17 +5,17 @@ meta {
 }
 
 get {
-  url: http://localhost:2000/api/books
+  url: http://localhost:2000/api/books?genre=Adventure
   body: none
   auth: inherit
 }
 
 params:query {
-  : 
+  genre: Adventure
 }
 
 headers {
-  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTk1MzEwMjAyMDhjYTI4MmZiNzliYzMiLCJ1c2VybmFtZSI6IkZhYnJpemlvRGV2MyIsImVtYWlsIjoiZmFicmkzNEB0ZXN0LmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzcxMzkxODAwLCJleHAiOjE3NzEzOTI0MDB9.NpRFMdv8DcbAXsljNRmMWtHQGgNk0DDnnks9ltTDTLM
+  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTk1MzEwMjAyMDhjYTI4MmZiNzliYzMiLCJ1c2VybmFtZSI6IkZhYnJpemlvRGV2MyIsImVtYWlsIjoiZmFicmkzNEB0ZXN0LmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzcxNDk3ODUxLCJleHAiOjE3NzE0OTg0NTF9.wL2tzOAll7Rz5Y1mI2iEj1EmoC5ZoxrLkybMCjg3FEc
 }
 
 settings {

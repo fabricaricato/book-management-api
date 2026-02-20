@@ -26,3 +26,5 @@ server.listen(PORT, () => {
     console.log(`Port listening failure, error message: ${err.message}`)
   }
 })
+
+export default server

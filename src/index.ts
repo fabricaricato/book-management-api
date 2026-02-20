@@ -1,20 +1,29 @@
+// ─── Core Dependencies ───
 import express, { Request, Response } from "express"
 import cors from "cors"
 import { config } from "dotenv"
+
+// ─── Internal Modules ───
 import { connectDb } from "./config/database"
 import { bookRouter } from "./routes/bookRouter"
 import { authRouter } from "./routes/authRouter"
 import { validateToken } from "./middleware/authMiddleware"
+
+// Load environment variables and establish database connection on startup
 config()
 connectDb()
 
 const PORT = process.env.PORT
 
+// Initialize Express server
 const server = express()
 
-server.use(cors())
-server.use(express.json())
+// ─── Global Middleware ───
+server.use(cors())              // Enable Cross-Origin Resource Sharing for all origins
+server.use(express.json())      // Parse incoming JSON request bodies
 
+// ─── Root Route ───
+// Serves a styled HTML landing page with API documentation and endpoint overview
 server.get('/', (req: Request, res: Response) => {
   res.send(`
     <!DOCTYPE html>
@@ -226,9 +235,11 @@ server.get('/', (req: Request, res: Response) => {
   `)
 })
 
-server.use('/api/books', validateToken, bookRouter)
-server.use('/api/auth', authRouter)
+// ─── API Routes ───
+server.use('/api/books', validateToken, bookRouter)  // Protected: requires valid JWT token
+server.use('/api/auth', authRouter)                  // Public: register and login endpoints
 
+// Only start the HTTP server when NOT running on Vercel (Vercel handles this via serverless functions)
 if (!process.env.VERCEL) {
   server.listen(PORT, () => {
     try {
@@ -240,4 +251,5 @@ if (!process.env.VERCEL) {
   })
 }
 
+// Export the server instance for Vercel serverless function entry point
 export default server

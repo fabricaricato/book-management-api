@@ -1,5 +1,9 @@
 import { Types } from "mongoose"
 
+/**
+ * Represents a book document in the database.
+ * Each book is associated with a user (owner) via the `user` field.
+ */
 interface IBook {
   _id?: Types.ObjectId
   title: string,
@@ -8,6 +12,7 @@ interface IBook {
   genre: string[],
   pages: number,
   editorial: string,
+  /** Reference to the User who owns this book */
   user: Types.ObjectId
 }
 

@@ -176,16 +176,23 @@ Register a new user account.
 
 #### `POST /api/auth/login`
 
-Authenticate an existing user and receive a JWT token.
+Authenticate an existing user and receive a JWT token. The request body is validated with Zod.
 
 **Request Body:**
 
 ```json
 {
+  "username": "johndoe",
   "email": "john@example.com",
   "password": "secret123"
 }
 ```
+
+| Field      | Type     | Required | Constraints       |
+| ---------- | -------- | -------- | ----------------- |
+| `username` | `string` | Yes      | Min. 2 characters |
+| `email`    | `string` | Yes      | Must be valid     |
+| `password` | `string` | Yes      | Min. 6 characters |
 
 **Success Response** — `200 OK`:
 
@@ -210,7 +217,7 @@ Authorization: Bearer <your_jwt_token>
 
 #### `GET /api/books`
 
-Retrieve all books. Supports optional query parameters for filtering.
+Retrieve books belonging to the authenticated user. Users with the `admin` role can view all books from all users. Supports optional query parameters for filtering.
 
 **Query Parameters:**
 
@@ -301,7 +308,7 @@ Create a new book entry. The authenticated user is automatically associated as t
 
 #### `PATCH /api/books/:id`
 
-Update an existing book by its ID. Only the provided fields will be updated (partial update).
+Update an existing book by its ID. Only the provided fields will be updated (partial update). The book must belong to the authenticated user.
 
 **URL Parameters:**
 
@@ -318,7 +325,7 @@ Update an existing book by its ID. Only the provided fields will be updated (par
 }
 ```
 
-**Success Response** — `201 Created`:
+**Success Response** — `200 OK`:
 
 ```json
 {
@@ -336,11 +343,20 @@ Update an existing book by its ID. Only the provided fields will be updated (par
 }
 ```
 
+**Error Response** — `404 Not Found` (book doesn't exist or doesn't belong to user):
+
+```json
+{
+  "success": false,
+  "error": "Book not found or you don't have permission"
+}
+```
+
 ---
 
 #### `DELETE /api/books/:id`
 
-Delete a book by its ID.
+Delete a book by its ID. The book must belong to the authenticated user.
 
 **URL Parameters:**
 
@@ -447,7 +463,7 @@ All endpoints return a consistent JSON response format:
 
 ## API Testing
 
-This project includes a [Bruno](https://www.usebruno.com/) collection inside the `peticiones-bruno-tp-final/` directory with pre-configured requests for all endpoints. Import the folder into Bruno to test the API quickly.
+This project includes a [Bruno](https://www.usebruno.com/) collection inside the `requests-bruno/` directory with pre-configured requests for all endpoints. Import the folder into Bruno to test the API quickly.
 
 ---
 
